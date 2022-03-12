@@ -20,6 +20,7 @@ main:				# program runs starting from main method
 		li $t3, 40	# initialize array upper bound as 10 in register $t3
 
 loop:				# beginning of input loop
+		
 		li $v0, 4	# load system call code 4 into register $v0
 		la $a0, input_prompt	# store address of input prompt in $a0
 		syscall		# call kernel to print string at given address
@@ -34,6 +35,7 @@ loop:				# beginning of input loop
 		mfhi $t5	# move remainder to register $t5
 		
 store_even:	
+		
 		beq $t1, $t3, even_full	# branch to even_full if array is at max capacity
 		bnez $t5, store_odd	# branch to store_odd if remainder is not zero
 		sw $s0, even_num($t1)	# store num at byte index $t1 if even
@@ -42,18 +44,21 @@ store_even:
 					# avoid incrementing odd index
 					
 even_full:
+		
 		li $v0, 4	# load system call code 4 into register $v0
 		la $a0, even_max	# store address of even full message
 		syscall		# call kernel to print string at given address
 		j continue
 		
 store_odd:	
+		
 		beq $t2, $t3, odd_full	# branch to odd_full if array is at max capacity
 		sw $s0, odd_num($t2)	# store num at byte index $t2 if odd
 		addi $t2, $t2, 4	# increment index by 4 bytes
 		j continue
 
 odd_full:
+		
 		li $v0, 4	# load system call code 4 into register $v0
 		la $a0, odd_max	# store address of odd full message
 		syscall		# call kernel to print string at given address
@@ -71,7 +76,6 @@ continue:
 		
 		
 		
-		
 exit:
 
 		li $t0, 0		# load 0 into $t0 as index counter for iteration
@@ -83,6 +87,7 @@ printeven:
 		syscall			# call kernel to print string at given address
 		
 evenarr:	
+		
 		beq $t0, $t1, printodd	# branch to print odd array when $t1 (max even index) reached
 		li $v0, 1		# load system call code 1 into register $v0
 		lw $a0, even_num($t0)	# load address of value at index $t0 in even array
@@ -122,6 +127,7 @@ oddarr:
 		j oddarr		# loop to iterate through array 
 
 terminate:						
+		
 		li $v0, 10	# load system call code 10 into value register
 		syscall		# call kernel to terminate program
 		
